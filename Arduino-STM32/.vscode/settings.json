@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "atlas.hcl": "atlas-config",
+        "stm32_def.h": "c",
+        "stm32f407xx.h": "c",
+        "stdint.h": "c",
+        "system_stm32f4xx.h": "c"
+    }
+}

@@ -1,0 +1,12 @@
+//adc1: Python.PythonPeripheral @ sysbus 0x40012000
+//    size: 0x50
+//    initable: false
+//    filename: "/workspaces/PlatformIO-Renode-Demos/Arduino-STM32/stm32_adc.py"
+
+adc1: Analog.STM32_ADC @ sysbus 0x40012000
+    IRQ -> nvic@18
+    DMARequest -> dma2@0 | dma2@4
+//    referenceVoltage: 5.0
+//    externalEventFrequency: 1000000
+
+c_adc: Analog.STM32_ADC @ sysbus 0x40012300
