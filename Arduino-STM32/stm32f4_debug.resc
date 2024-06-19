@@ -3,23 +3,45 @@
 # sysbus LogPeripheralAccess c_adc
 # sysbus LogPeripheralAccess adc1
 
-logLevel 1 usart2
+# logLevel 1 usart2
 
 # >>> print(*[f'adc1 FeedSample 0xAF{i} {i} 10000' for i in range(0, 15)], sep='\n')
-adc1 FeedSample 0xAF0 0 10000
-adc1 FeedSample 0xAF1 1 10000
-adc1 FeedSample 0xAF2 2 10000
-adc1 FeedSample 0xAF3 3 10000
-adc1 FeedSample 0xAF4 4 10000
-adc1 FeedSample 0xAF5 5 10000
-adc1 FeedSample 0xAF6 6 10000
-adc1 FeedSample 0xAF7 7 10000
-adc1 FeedSample 0xAF8 8 10000
-adc1 FeedSample 0xAF9 9 10000
-adc1 FeedSample 0xAF10 10 10000
-adc1 FeedSample 0xAF11 11 10000
-adc1 FeedSample 0xAF12 12 10000
-adc1 FeedSample 0xAF13 13 10000
-adc1 FeedSample 0xAF14 14 10000
-adc1 FeedSample 0xAF15 15 10000
-adc1 FeedSample 0xAF16 16 10000
+# adc1 FeedSample 0xAF0 0 10000
+# adc1 FeedSample 0xAF1 1 10000
+# adc1 FeedSample 0xAF2 2 10000
+# adc1 FeedSample 0xAF3 3 10000
+# adc1 FeedSample 0xAF4 4 10000
+# adc1 FeedSample 0xAF5 5 10000
+# adc1 FeedSample 0xAF6 6 10000
+# adc1 FeedSample 0xAF7 7 10000
+# adc1 FeedSample 0xAF8 8 10000
+# adc1 FeedSample 0xAF9 9 10000
+# adc1 FeedSample 0xAF10 10 10000
+# adc1 FeedSample 0xAF11 11 10000
+# adc1 FeedSample 0xAF12 12 10000
+# adc1 FeedSample 0xAF13 13 10000
+# adc1 FeedSample 0xAF14 14 10000
+# adc1 FeedSample 0xAF15 15 10000
+# adc1 FeedSample 0xAF16 16 10000
+
+adc1 FeedSample "/workspaces/PlatformIO-Renode-Demos/Arduino-STM32/data/renode-stm32-adc1-channel-v1.txt" 12
+adc1 FeedSample "/workspaces/PlatformIO-Renode-Demos/Arduino-STM32/data/renode-stm32-adc1-channel-v2.txt" 14
+adc1 FeedSample "/workspaces/PlatformIO-Renode-Demos/Arduino-STM32/data/renode-stm32-adc1-channel-v3.txt" 8
+adc1 FeedSample "/workspaces/PlatformIO-Renode-Demos/Arduino-STM32/data/renode-stm32-adc1-channel-v4.txt" 11
+adc1 FeedSample "/workspaces/PlatformIO-Renode-Demos/Arduino-STM32/data/renode-stm32-adc1-channel-v5.txt" 13
+adc1 FeedSample "/workspaces/PlatformIO-Renode-Demos/Arduino-STM32/data/renode-stm32-adc1-channel-v6.txt" 1
+
+emulation CreateUartPtyTerminal "externalTerm" "/tmp/renode-usart2" true
+connector Connect usart2 externalTerm
+
+# cat /tmp/renode-usart2 | tee /dev/tty | nc -u -w100 localhost 47269
+
+# cat /tmp/renode-usart2 | tee /dev/tty | while read -r line; do echo "$line" | nc -u -w100 127.0.0.1 47269; done
+# cat /tmp/renode-usart2 | tee /dev/tty | nc -u -w100 127.0.0.1 47269
+# socat -u FILE:/tmp/renode-usart2 UDP4-DATAGRAM:127.0.0.1:47269
+
+# cat /tmp/renode-usart2 | tee /dev/tty | socat -x -u - UDP4-DATAGRAM:127.0.0.1:47269
+# gawk -v 'RS=\03' -v cmd='socat -u - udp-datagram:localhost:47269' '{print $0 RT| cmd; close(cmd)}'
+
+# Final:
+# python teleplot-pipe.py
